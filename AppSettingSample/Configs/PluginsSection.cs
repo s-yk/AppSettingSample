@@ -3,6 +3,7 @@ using System.Configuration;
 
 namespace AppSettingSample.Configs
 {
+    #region section
     public class PluginsSection : ConfigurationSection
     {
         public static PluginsSection GetSection()
@@ -22,6 +23,9 @@ namespace AppSettingSample.Configs
             get { return base["postPlugins"] as PluginCollection; }
         }
     }
+    #endregion
+
+    #region elements
 
     #region plugin
     public class PluginElement : ConfigurationElement
@@ -35,12 +39,12 @@ namespace AppSettingSample.Configs
             }
         }
 
-        [ConfigurationProperty("params")]
+        [ConfigurationProperty("", IsDefaultCollection = true)]
         public ParamCollection Params
         {
             get
             {
-                return base["params"] as ParamCollection;
+                return base[""] as ParamCollection;
             }
         }
     }
@@ -95,5 +99,7 @@ namespace AppSettingSample.Configs
             return ((ParamElement)element).Name;
         }
     }
+    #endregion
+
     #endregion
 }
