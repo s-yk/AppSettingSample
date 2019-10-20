@@ -1,6 +1,5 @@
-﻿using System;
-using System.Configuration;
-using AppSettingSample.Configs;
+﻿using AppSettingSample.Configs;
+using System;
 
 namespace AppSettingSample
 {
@@ -11,18 +10,32 @@ namespace AppSettingSample
             var pluginsSection = PluginsSection.GetSection();
 
             var pre = pluginsSection.PrePlugins;
-            show(pre);
+            showPlugin(pre);
 
             var post = pluginsSection.PostPlugins;
-            show(post);
+            showPlugin(post);
+
+            Console.ReadLine();
+            Environment.Exit(0);
         }
 
-        private static void show(PluginCollection cec)
+        private static void showPlugin(PluginCollection cec)
         {
             foreach(var ce in cec)
             {
                 var pe = ce as PluginElement;
-                Console.WriteLine(pe.AssemblyName);
+                Console.WriteLine("=============================");
+                Console.WriteLine($"plugin: {pe.AssemblyName}");
+                showParam(pe.Params);
+            }
+        }
+
+        private static void showParam(ParamCollection pac)
+        {
+            foreach(var pa in pac)
+            {
+                var param = pa as ParamElement;
+                Console.WriteLine($"param name:{param.Name}, value:{param.Value}");
             }
         }
     }

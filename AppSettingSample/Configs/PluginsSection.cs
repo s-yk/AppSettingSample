@@ -23,6 +23,28 @@ namespace AppSettingSample.Configs
         }
     }
 
+    #region plugin
+    public class PluginElement : ConfigurationElement
+    {
+        [ConfigurationProperty("assemblyName")]
+        public string AssemblyName
+        {
+            get
+            {
+                return base["assemblyName"] as string;
+            }
+        }
+
+        [ConfigurationProperty("params")]
+        public ParamCollection Params
+        {
+            get
+            {
+                return base["params"] as ParamCollection;
+            }
+        }
+    }
+
     [ConfigurationCollection(typeof(PluginElement), AddItemName = "plugin")]
     public class PluginCollection : ConfigurationElementCollection
     {
@@ -36,19 +58,42 @@ namespace AppSettingSample.Configs
             return ((PluginElement)element).AssemblyName;
         }
     }
+    #endregion
 
-    public class PluginElement : ConfigurationElement
+    #region param
+    public class ParamElement : ConfigurationElement
     {
-        [ConfigurationProperty("assemblyName")]
-        public string AssemblyName {
+        [ConfigurationProperty("name")]
+        public string Name
+        {
             get
             {
-                return base["assemblyName"] as string;
+                return base["name"] as string;
             }
-            set
+        }
+
+        [ConfigurationProperty("value")]
+        public string Value
+        {
+            get
             {
-                this["assemblyName"] = value;
+                return base["value"] as string;
             }
         }
     }
+
+    [ConfigurationCollection(typeof(ParamElement), AddItemName = "param")]
+    public class ParamCollection : ConfigurationElementCollection
+    {
+        protected override ConfigurationElement CreateNewElement()
+        {
+            return new ParamElement();
+        }
+
+        protected override object GetElementKey(ConfigurationElement element)
+        {
+            return ((ParamElement)element).Name;
+        }
+    }
+    #endregion
 }
